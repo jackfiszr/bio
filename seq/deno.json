@@ -1,0 +1,5 @@
+{
+  "name": "@bio/seq",
+  "version": "0.0.1",
+  "exports": "./mod.ts"
+}
