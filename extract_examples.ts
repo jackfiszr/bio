@@ -1,18 +1,23 @@
 import { join } from "@std/path";
 
-const moduleDir = join(Deno.cwd(), "seq");
+const moduleDir = join(Deno.cwd(), Deno.args[0]);
 
 const readmePath = join(moduleDir, "README.md");
 const examplesPath = join(moduleDir, "examples.ts");
 
 const readmeContent = await Deno.readTextFile(readmePath);
-const exampleRegex = /```ts([\s\S]*?)```/g;
+const exampleRegex = /(?:^|\n)([^`]*?)\n```ts([\s\S]*?)```/g;
 
 let match;
 let examplesContent = "";
 
 while ((match = exampleRegex.exec(readmeContent)) !== null) {
-  examplesContent += match[1].trim() + "\n\n";
+  const description = match[1].trim();
+  const codeBlock = match[2].trim();
+  if (description) {
+    examplesContent += `console.log(\`\n${description}\`);\n`;
+  }
+  examplesContent += `${codeBlock}\n\n`;
 }
 
 await Deno.writeTextFile(examplesPath, examplesContent.trim());
