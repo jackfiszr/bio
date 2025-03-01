@@ -5,8 +5,12 @@ export class Seq {
     this.sequence = seq.toUpperCase();
   }
 
-  length(): number {
+  get length(): number {
     return this.sequence.length;
+  }
+
+  at(index: number): string | undefined {
+    return this.sequence.at(index);
   }
 
   toString(): string {
