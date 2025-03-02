@@ -49,3 +49,12 @@ console.log(mySeq.count("G"));
 // 9
 console.log(100 * (mySeq.count("G") + mySeq.count("C")) / mySeq.length);
 // 46.875
+
+console.log(`
+## Slicing a sequence
+
+A more complicated example, let’s get a slice of the sequence:`);
+mySeq = new Seq("GATCGATGGGCCTATATAGGATCGAAAATCGC");
+
+console.log(mySeq.slice(4, 12));
+// Seq { sequence: "GATGGGCC" }

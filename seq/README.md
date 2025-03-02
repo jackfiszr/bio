@@ -57,3 +57,19 @@ console.log(mySeq.count("G"));
 console.log(100 * (mySeq.count("G") + mySeq.count("C")) / mySeq.length);
 // 46.875
 ```
+
+## Slicing a sequence
+
+A more complicated example, let’s get a slice of the sequence:
+
+```ts
+mySeq = new Seq("GATCGATGGGCCTATATAGGATCGAAAATCGC");
+
+console.log(mySeq.slice(4, 12));
+// Seq { sequence: "GATGGGCC" }
+```
+
+Note that ‘Seq‘ objects follow the usual indexing conventions for JavaScript
+strings, with the first element of the sequence numbered 0. When you do a slice
+the first item is included (i.e. 4 in this case) and the last is excluded (12 in
+this case).
