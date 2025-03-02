@@ -8,7 +8,7 @@ strings, for example getting the length, or iterating over the elements:
 ```ts
 import { Seq } from "@bio/seq";
 
-const mySeq = new Seq("GATCG");
+let mySeq = new Seq("GATCG");
 
 for (let index = 0; index < mySeq.length; index++) {
   console.log(`${index} ${mySeq.at(index)}`);
@@ -33,4 +33,27 @@ console.log(mySeq.at(2));
 // T
 console.log(mySeq.at(-1));
 // G
+```
+
+Unlike a string, the `Seq` object has a `.count()` method. This gives a
+_non-overlapping_ count:
+
+```ts
+const count = new Seq("AAAA").count("AA");
+console.log(count);
+// 2
+```
+
+For some biological uses, you may actually want an overlapping count (i.e. in
+this trivial example). When searching for single letters, this makes no
+difference:
+
+```ts
+mySeq = new Seq("GATCGATGGGCCTATATAGGATCGAAAATCGC");
+console.log(mySeq.length);
+// 32
+console.log(mySeq.count("G"));
+// 9
+console.log(100 * (mySeq.count("G") + mySeq.count("C")) / mySeq.length);
+// 46.875
 ```
