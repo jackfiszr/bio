@@ -127,15 +127,92 @@ export class Seq {
     return new Seq(this.sequence.slice(start, end));
   }
 
-  upper(): Seq {
+  toUpperCase(): Seq {
     return new Seq(this.sequence.toUpperCase());
   }
 
-  lower(): Seq {
+  toLowerCase(): Seq {
     return new Seq(this.sequence.toLowerCase());
   }
 
   concat(other: Seq): Seq {
     return new Seq(this.sequence + other.toString());
   }
+
+  reverse(): Seq {
+    return new Seq(this.sequence.split("").reverse().join(""));
+  }
+
+  equals(other: string | Seq): boolean {
+    return this.sequence ===
+      (typeof other === "string" ? other : other.toString());
+  }
+
+  indexOf(subseq: string): number {
+    const index = this.sequence.indexOf(subseq);
+    if (index === -1) throw new RangeError("Subsequence not found");
+    return index;
+  }
+
+  lastIndexOf(subseq: string): number {
+    const index = this.sequence.lastIndexOf(subseq);
+    if (index === -1) throw new RangeError("Subsequence not found");
+    return index;
+  }
+}
+
+export class MutableSeq {
+  private sequence: string;
+
+  constructor(sequence: string) {
+    this.sequence = sequence;
+  }
+
+  set(index: number, char: string): void {
+    if (index < 0 || index >= this.sequence.length) {
+      throw new RangeError("Index out of bounds");
+    }
+    if (char.length !== 1) {
+      throw new Error("Only a single character can be set");
+    }
+    this.sequence = this.sequence.substring(0, index) + char +
+      this.sequence.substring(index + 1);
+  }
+
+  remove(char: string): void {
+    this.sequence = this.sequence.split(char).join("");
+  }
+
+  reverse(): void {
+    this.sequence = this.sequence.split("").reverse().join("");
+  }
+
+  toString(): string {
+    return this.sequence;
+  }
+
+  toJSON(): object {
+    return { sequence: this.sequence };
+  }
+}
+
+// Module-level functions
+export function reverseComplement(seq: string | Seq): string {
+  return new Seq(typeof seq === "string" ? seq : seq.toString())
+    .reverseComplement().toString();
+}
+
+export function transcribe(seq: string | Seq): string {
+  return new Seq(typeof seq === "string" ? seq : seq.toString()).transcribe()
+    .toString();
+}
+
+export function backTranscribe(seq: string | Seq): string {
+  return new Seq(typeof seq === "string" ? seq : seq.toString())
+    .backTranscribe().toString();
+}
+
+export function translate(seq: string | Seq): string {
+  return new Seq(typeof seq === "string" ? seq : seq.toString()).translate()
+    .toString();
 }
